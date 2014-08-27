@@ -7,9 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreMotion/CoreMotion.h>
+#import <AudioToolbox/AudioToolbox.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class ViewController;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+    CMMotionManager * motionManager;
+    
+}
+
+@property (readonly) CMMotionManager * motionManager;
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) ViewController *viewController;
 
 @end

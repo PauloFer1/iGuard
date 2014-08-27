@@ -22,6 +22,12 @@
 		652A245A19AB7C4300B5371D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652A243919AB7C4300B5371D /* UIKit.framework */; };
 		652A246219AB7C4300B5371D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 652A246019AB7C4300B5371D /* InfoPlist.strings */; };
 		652A246419AB7C4300B5371D /* iGuardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 652A246319AB7C4300B5371D /* iGuardTests.m */; };
+		652A246E19AB848300B5371D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652A246D19AB848300B5371D /* CoreMotion.framework */; };
+		652A247019ABE67100B5371D /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 652A246F19ABE67100B5371D /* siren.mp3 */; };
+		652A247219ABE69100B5371D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652A247119ABE69100B5371D /* AudioToolbox.framework */; };
+		652A247419ABEADB00B5371D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652A247319ABEADB00B5371D /* AVFoundation.framework */; };
+		6542A37819ACA90D00F0AC4D /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6542A37719ACA90D00F0AC4D /* MediaPlayer.framework */; };
+		6542A37E19ADEEED00F0AC4D /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6542A37D19ADEEED00F0AC4D /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +61,12 @@
 		652A245F19AB7C4300B5371D /* iGuardTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iGuardTests-Info.plist"; sourceTree = "<group>"; };
 		652A246119AB7C4300B5371D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		652A246319AB7C4300B5371D /* iGuardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iGuardTests.m; sourceTree = "<group>"; };
+		652A246D19AB848300B5371D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		652A246F19ABE67100B5371D /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren.mp3; path = ../../../../../../Desktop/siren.mp3; sourceTree = "<group>"; };
+		652A247119ABE69100B5371D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		652A247319ABEADB00B5371D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		6542A37719ACA90D00F0AC4D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		6542A37D19ADEEED00F0AC4D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +74,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6542A37E19ADEEED00F0AC4D /* CoreBluetooth.framework in Frameworks */,
+				6542A37819ACA90D00F0AC4D /* MediaPlayer.framework in Frameworks */,
+				652A247419ABEADB00B5371D /* AVFoundation.framework in Frameworks */,
+				652A247219ABE69100B5371D /* AudioToolbox.framework in Frameworks */,
+				652A246E19AB848300B5371D /* CoreMotion.framework in Frameworks */,
 				652A243819AB7C4300B5371D /* CoreGraphics.framework in Frameworks */,
 				652A243A19AB7C4300B5371D /* UIKit.framework in Frameworks */,
 				652A243619AB7C4300B5371D /* Foundation.framework in Frameworks */,
@@ -103,6 +120,11 @@
 		652A243419AB7C4300B5371D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6542A37D19ADEEED00F0AC4D /* CoreBluetooth.framework */,
+				6542A37719ACA90D00F0AC4D /* MediaPlayer.framework */,
+				652A247319ABEADB00B5371D /* AVFoundation.framework */,
+				652A247119ABE69100B5371D /* AudioToolbox.framework */,
+				652A246D19AB848300B5371D /* CoreMotion.framework */,
 				652A243519AB7C4300B5371D /* Foundation.framework */,
 				652A243719AB7C4300B5371D /* CoreGraphics.framework */,
 				652A243919AB7C4300B5371D /* UIKit.framework */,
@@ -114,6 +136,7 @@
 		652A243B19AB7C4300B5371D /* iGuard */ = {
 			isa = PBXGroup;
 			children = (
+				652A246F19ABE67100B5371D /* siren.mp3 */,
 				652A244419AB7C4300B5371D /* AppDelegate.h */,
 				652A244519AB7C4300B5371D /* AppDelegate.m */,
 				652A244719AB7C4300B5371D /* Main_iPhone.storyboard */,
@@ -235,6 +258,7 @@
 				652A245119AB7C4300B5371D /* Images.xcassets in Resources */,
 				652A244919AB7C4300B5371D /* Main_iPhone.storyboard in Resources */,
 				652A244019AB7C4300B5371D /* InfoPlist.strings in Resources */,
+				652A247019ABE67100B5371D /* siren.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +419,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iGuard/iGuard-Prefix.pch";
 				INFOPLIST_FILE = "iGuard/iGuard-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -408,7 +434,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iGuard/iGuard-Prefix.pch";
 				INFOPLIST_FILE = "iGuard/iGuard-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -474,6 +502,7 @@
 				652A246919AB7C4300B5371D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		652A246A19AB7C4300B5371D /* Build configuration list for PBXNativeTarget "iGuardTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +511,7 @@
 				652A246C19AB7C4300B5371D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

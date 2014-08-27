@@ -7,7 +7,36 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <CBCentralManagerDelegate>
+{
+    NSOperationQueue *queue;
+    SystemSoundID sound1;
+    AVAudioPlayer *avSound;
+    NSTimer *timer;
+    UIColor *viewColor;
+    BOOL shouldHideStatusBar;
+    
+    int hasHorn;
+    int isRunning;
+    int counter;
+    int tapCount;
+    int isBlack;
+    float sensitivity;
+}
+
+//@property (weak, nonatomic) IBOutlet UIView *movingView;
+@property (weak, nonatomic) IBOutlet UIView *movingView;
+@property (weak, nonatomic) IBOutlet UILabel *labelWarning;
+@property (weak, nonatomic) IBOutlet UIButton *startBtn;
+@property (weak, nonatomic) IBOutlet UIView *volumeView;
+@property (weak, nonatomic) IBOutlet UISlider *sensitivitySlider;
+@property (strong, nonatomic) CBCentralManager *central;
+@property (strong, nonatomic) CBPeripheral *peripheral;
+@property (strong, nonatomic) NSMutableData *data;
 
 @end
