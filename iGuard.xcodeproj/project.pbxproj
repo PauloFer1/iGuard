@@ -67,6 +67,7 @@
 		652A247319ABEADB00B5371D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6542A37719ACA90D00F0AC4D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		6542A37D19ADEEED00F0AC4D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		65A14C9819AE2675006A8467 /* SERVICES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SERVICES.h; path = ../SERVICES.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +137,7 @@
 		652A243B19AB7C4300B5371D /* iGuard */ = {
 			isa = PBXGroup;
 			children = (
+				65A14C9819AE2675006A8467 /* SERVICES.h */,
 				652A246F19ABE67100B5371D /* siren.mp3 */,
 				652A244419AB7C4300B5371D /* AppDelegate.h */,
 				652A244519AB7C4300B5371D /* AppDelegate.m */,

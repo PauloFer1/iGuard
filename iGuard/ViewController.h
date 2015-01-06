@@ -12,7 +12,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-@interface ViewController : UIViewController <CBCentralManagerDelegate>
+#import "SERVICES.h"
+
+@interface ViewController : UIViewController <CBCentralManagerDelegate, CBPeripheralDelegate>
 {
     NSOperationQueue *queue;
     SystemSoundID sound1;
@@ -27,6 +29,7 @@
     int tapCount;
     int isBlack;
     float sensitivity;
+    float brightness;
 }
 
 //@property (weak, nonatomic) IBOutlet UIView *movingView;

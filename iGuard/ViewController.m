@@ -26,10 +26,10 @@
     tapCount = 0;
     isBlack = 0;
     viewColor = self.movingView.backgroundColor;
+    brightness =  [[UIScreen mainScreen] brightness];
     
     self.central = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.data = [[NSMutableData alloc] init];
-    [self.central scanForPeripheralsWithServices:nil options:nil];
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -44,7 +44,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//****************** MOTION DETECTION RELATIVE
 -(CMMotionManager *)motionManager
 {
     CMMotionManager *motionManager = nil;
@@ -58,59 +58,6 @@
     
     return motionManager;
 }
-
-- (void)startMyMotionDetect
-{
-    
-    __block float stepMoveFactor = 15;
-    
-    [self.motionManager
-     startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init]
-     withHandler:^(CMAccelerometerData *data, NSError *error)
-     {
-         
-         dispatch_async(dispatch_get_main_queue(),
-                        ^{
-                            
-                            CGRect rect = self.movingView.frame;
-                            
-                            float movetoX = rect.origin.x + (data.acceleration.x * stepMoveFactor);
-                            float maxX = self.view.frame.size.width - rect.size.width;
-                            
-                            float movetoY = (rect.origin.y + rect.size.height)
-                            - (data.acceleration.y * stepMoveFactor);
-                            
-                            float maxY = self.view.frame.size.height;
-                            
-                        /*    self.labelX.text = [NSString stringWithFormat:@"%f", data.acceleration.x];
-                            self.labelY.text = [NSString stringWithFormat:@"%f", data.acceleration.y];
-                            self.labelZ.text = [NSString stringWithFormat:@"%f", data.acceleration.z];*/
-                            
-                            
-                            if ( movetoX > 0 && movetoX < maxX ) {
-                                rect.origin.x += (data.acceleration.x * stepMoveFactor);
-                                
-                            };
-                            
-                            if ( movetoY > 0 && movetoY < maxY ) {
-                                rect.origin.y -= (data.acceleration.y * stepMoveFactor);
-                            };
-                            
-                            [UIView animateWithDuration:0 delay:0
-                                                options:UIViewAnimationCurveEaseInOut
-                                             animations:
-                             ^{
-                                 self.movingView.frame = rect;
-                             }
-                                             completion:nil
-                             ];
-                            
-                        }
-                        );
-     }
-     ];
-    
-}
 - (void)startDeviceMotion
 {
     self.motionManager.accelerometerUpdateInterval  = 1.0/10.0; // Update at 10Hz
@@ -119,16 +66,8 @@
         queue = [NSOperationQueue currentQueue];
         [self.motionManager startDeviceMotionUpdatesToQueue:queue
                                             withHandler:^(CMDeviceMotion *motionData, NSError *error) {
-//                                                CMAttitude *attitude = motionData.attitude;
-  //                                              CMAcceleration gravity = motionData.gravity;
                                                 CMAcceleration userAcceleration = motionData.userAcceleration;
-    //                                            CMRotationRate rotate = motionData.rotationRate;
-      //                                          CMCalibratedMagneticField field = motionData.magneticField;
-                                                
-                                                /*self.labelX.text = [NSString stringWithFormat:@"%f", userAcceleration.x];
-                                                self.labelY.text = [NSString stringWithFormat:@"%f", userAcceleration.y];
-                                                self.labelZ.text = [NSString stringWithFormat:@"%f", userAcceleration.z];*/
-                                                
+
                                                 if((userAcceleration.x > (self.sensitivitySlider.value/5) || userAcceleration.y > (self.sensitivitySlider.value/5) || userAcceleration.z > (self.sensitivitySlider.value/5)) && isRunning==1 )
                                                 {
                                                     self.labelWarning.text = @"ALERT!";
@@ -139,7 +78,6 @@
                                                     self.labelWarning.text = @"OK";
                                                     self.labelWarning.textColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:1.0f];
                                                 }
-//                                                 NSLog([NSString stringWithFormat:@"%f",gravity.x]);
                                             }];
         
     }
@@ -167,6 +105,7 @@
         }
     }
 }
+//*********** UI RELATED
 - (void)pressButton{
     if(isRunning==0)
     {
@@ -185,6 +124,12 @@
         [self.startBtn setTitle:@"STAY ALLERT" forState:UIControlStateNormal];
     }
 
+}
+-(void) createAndDisplayMPVolumeView
+{
+    [self.volumeView setBackgroundColor: [UIColor clearColor]];
+    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: self.volumeView.bounds];
+    [self.volumeView addSubview: myVolumeView];
 }
 -(void)timerFired
 {
@@ -224,13 +169,13 @@
     [UIView animateWithDuration:0.5f animations:^{
         self.movingView.frame = rect;
     }];
-    [[UIScreen mainScreen] setBrightness: 1.0f];
+    [[UIScreen mainScreen] setBrightness: brightness];
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
 //    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     if(isBlack==1)
     {
-        if(tapCount>=5)
+        if(tapCount>=4)
         {
             [self unBlackify];
             tapCount=0;
@@ -243,7 +188,141 @@
     
      NSLog(@"tapped");
 }
+//******************** CBCENTRALMANAGER RELATED
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    if ([central state] == CBCentralManagerStatePoweredOff) {
+        NSLog(@"CoreBluetooth BLE hardware is powered off");
+    }
+    else if ([central state] == CBCentralManagerStatePoweredOn) {
+        NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+        [self.central scanForPeripheralsWithServices:nil options:nil];
+    }
+    else if ([central state] == CBCentralManagerStateUnauthorized) {
+        NSLog(@"CoreBluetooth BLE state is unauthorized");
+    }
+    else if ([central state] == CBCentralManagerStateUnknown) {
+        NSLog(@"CoreBluetooth BLE state is unknown");
+    }
+    else if ([central state] == CBCentralManagerStateUnsupported) {
+        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+    }
+}
+-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
+    
+    NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
+    
+    if (self.peripheral != peripheral) {
+        // Save a local copy of the peripheral, so CoreBluetooth doesn't get rid of it
+        self.peripheral = peripheral;
+        
+        // And connect
+        NSLog(@"Connecting to peripheral %@", peripheral);
+        [self.central connectPeripheral:peripheral options:nil];
+    }
+}
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    NSLog(@"Failed to connect");
+    [self cleanup];
+}
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    NSLog(@"Connected");
+    
+    [self.central stopScan];
+    NSLog(@"Scanning stopped");
+    
+    [self.data setLength:0];
+    
+    peripheral.delegate = self;
+    
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]]];
+   // [peripheral discoverServices:nil];
+}
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    if (error) {
+        [self cleanup];
+        return;
+    }
+    
+    for (CBService *service in peripheral.services) {
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]] forService:service];
+    //    [peripheral discoverCharacteristics:nil forService:service];
+    }
+    // Discover other characteristics
+}
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
+    if (error) {
+        [self cleanup];
+        return;
+    }
+    
+    for (CBCharacteristic *characteristic in service.characteristics) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+    }
+}
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (error) {
+        NSLog(@"Error");
+        return;
+    }
+    
+    NSString *stringFromData = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+    
+    // Have we got everything we need?
+    if ([stringFromData isEqualToString:@"EOM"]) {
+        
+     //   [_textview setText:[[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding]];
+        
+        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+        
+        [self.central cancelPeripheralConnection:peripheral];
+        
+    }
+    
+    [self.data appendData:characteristic.value];
+}
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    
+    if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
+        return;
+    }
+    
+    if (characteristic.isNotifying) {
+        NSLog(@"Notification began on %@", characteristic);
+    } else {
+        // Notification has stopped
+        [self.central cancelPeripheralConnection:peripheral];
+    }
+}
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    self.peripheral = nil;
+    
+    [self.central scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+    //[self.central scanForPeripheralsWithServices:nil options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+}
 
+- (void)cleanup {
+    
+    // See if we are subscribed to a characteristic on the peripheral
+    if (self.peripheral.services != nil) {
+        for (CBService *service in self.peripheral.services) {
+            if (service.characteristics != nil) {
+                for (CBCharacteristic *characteristic in service.characteristics) {
+                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
+                        if (characteristic.isNotifying) {
+                            [self.peripheral setNotifyValue:NO forCharacteristic:characteristic];
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [self.central cancelPeripheralConnection:self.peripheral];
+}
+//******************* VIEWCONTROLLER RELATED
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -287,24 +366,5 @@
     localNotification.userInfo = infoDict;
     
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-}
-
--(void) createAndDisplayMPVolumeView
-{
-    // Create a simple holding UIView and give it a frame
-  //  self.volumeView = [[UIView alloc] initWithFrame: CGRectMake(30, 100, 260, 20)];
-    
-    // set the UIView backgroundColor to clear.
-    [self.volumeView setBackgroundColor: [UIColor clearColor]];
-    
-    // add the holding view as a subView of the main view
-//    [self.view addSubview: volumeHolder];
-    
-    // Create an instance of MPVolumeView and give it a frame
-    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: self.volumeView.bounds];
-    
-    
-    // Add myVolumeView as a subView of the volumeHolder
-   [self.volumeView addSubview: myVolumeView];
 }
 @end
